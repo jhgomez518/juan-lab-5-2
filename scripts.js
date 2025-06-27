@@ -10,8 +10,25 @@ const passwordError = document.getElementById("passwordError")
 const confirmPasswordError = document.getElementById("confirmPasswordError")
 const submitButton = document.getElementById("submit-button")
 
-// retrieves any data (as a string) as a result of user interacting with app
+// retrieves any object/data (as a string) saved in local storage as a result of user previously interacting with app
 const saved_data = localStorage.getItem("form_submissions")
+// recovers object type of the saved object in local storage; will use to populate placeholder values if it exists
+const recovered_saved_data = JSON.parse(saved_data)
+
+userName.addEventListener("input", () => {
+    /**
+     * when input data changes, if an object exists in local storage,
+     * input placeholder values will update with values of the object
+     * for the corresponding inputs/properties
+     */
+    if(saved_data) {
+        userName.placeholder = recovered_saved_data.username
+        userEmail.placeholder = recovered_saved_data.email
+        userPassword.placeholder = recovered_saved_data.password
+        userConfirmPassword.placeholder = recovered_saved_data.confirm_password
+    }
+
+})
 
 // describes what happens when "submit" button is clicked
 submitButton.addEventListener("click", () => {
@@ -29,9 +46,9 @@ submitButton.addEventListener("click", () => {
 
     /**
      * save object to local storage (as string); "form_submissions" to be the key, value to be the object
-     * note: in previous exercise I used an array and pushed object to array, which might have been
-     * redundant--in any case, i am only storing one object at a time in local storage in this case,
-     * so i realized i can just by the array
+     * note: in previous exercise i used an array and pushed object to array, which might have been
+     * redundant--in any case, i am only storing one object at a time in local storage here,
+     * so i realized i can just bypass the array
      */
     
     localStorage.setItem("form_submissions", JSON.stringify(submitted_form))
