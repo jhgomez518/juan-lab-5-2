@@ -32,8 +32,8 @@
               <a class="navbar-link"> profile </a>
               <div class="navbar-dropdown">
                 <a class="navbar-item"> my profile </a>
-                <a class="navbar-item is-selected"> manage account </a>
-                <a class="navbar-item"> contact us </a>
+                <a class="navbar-item"> manage account </a>
+                <a class="navbar-item is-selected"> contact us </a>
                 <hr class="navbar-divider" />
                 <a class="navbar-item"> sign out </a>
               </div>
@@ -65,6 +65,7 @@
                   maxlength="20"
                   required
                 />
+                <span class="error-message" id="usernameError"></span>
               </div>
             </div>
 
@@ -81,7 +82,7 @@
                   pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                   required
                 />
-                <span id="customEmailError" class="help is-danger"></span>
+                <span class="help is-danger" id="customEmailError"></span>
               </div>
             </div>
 
@@ -97,6 +98,7 @@
                   maxlength="20"
                   required
                 />
+                <span class="error-message" id="passwordError"></span>
               </div>
             </div>
 
@@ -112,9 +114,10 @@
                   maxlength="20"
                   required
                 />
+                <span class="error-message" id="confirmPasswordError"></span>
               </div>
             </div>
-            <button class="button is-danger">sign up</button>
+            <button class="button is-link" type="submit">submit</button>
           </form>
         </div>
       </div>

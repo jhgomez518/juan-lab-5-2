@@ -1,0 +1,10 @@
+
+const userName = document.getElementById("username")
+const userEmail = document.getElementById("email")
+const userPassword = document.getElementById("password")
+const userConfirmPassword = document.getElementById("confirm-password")
+const signupForm = document.querySelector(".sign-up-form")
+const usernameError = document.getElementById("usernameError")
+const emailError = document.getElementById("customEmailError")
+const passwordError = document.getElementById("passwordError")
+const confirmPasswordError = document.getElementById("confirmPasswordError")
