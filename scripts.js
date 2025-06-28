@@ -13,14 +13,9 @@ const statusMessage = document.getElementById("status-message")
 
 // retrieves any object/data (as a string) saved in local storage as a result of user previously interacting with app
 const saved_data = localStorage.getItem("form_submissions")
-// recovers object type of the saved object in local storage; will use to populate placeholder values if it exists
+// recovers object type of the saved object in local storage; will use to populate placeholder values if object exists
 const recovered_saved_data = JSON.parse(saved_data)
 
-/**
-* if an object exists in local storage,
-* input placeholder values will update with values of the object
-* for the corresponding inputs/properties
-*/
 if(saved_data) {
         userName.placeholder = recovered_saved_data.username
         userEmail.placeholder = recovered_saved_data.email
@@ -29,14 +24,12 @@ if(saved_data) {
     }
 
 /**
- * note, initially had arrow functions, but when got to submit-button listener needed to
- * call functions and realized that this does not work for arrow-functions, so
- * i re-factored code. learned to reverse-engineer syntax from:
- * https://medium.com/@mz.ebrahimi/dont-use-arrow-functions-in-event-listeners-and-what-to-do-instead-2f545098cd9f
+ * the following arrow-functions apply
+ * validation to all input fields
  */
-function validateUsername() {
-    
-    // check input validity and decide validation message based on result
+
+userName.addEventListener("input", () => {
+// check input validity and decide validation message based on result
     if (userName.validity.valueMissing) {
         userName.setCustomValidity("please enter a value");
     } else if (userName.validity.tooLong) {
@@ -48,11 +41,10 @@ function validateUsername() {
         userName.setCustomValidity(''); // clear custom error if valid
     }
     // display the custom message or clear it if all constraints are met
-    usernameError.textContent = userName.validationMessage;
+    usernameError.textContent = userName.validationMessage
+})
 
-}
-
-function validateUseremail() {
+userEmail.addEventListener("input", () => {
 
     // check input validity and decide validation message based on result
     if (userEmail.validity.valueMissing) {
@@ -70,9 +62,9 @@ function validateUseremail() {
     // display the custom message or clear it if all constraints are met
     emailError.textContent = userEmail.validationMessage;
 
-}
+})
 
-function validateUserpassword() {
+userPassword.addEventListener("input", () => {
 
     // check input validity and decide validation message based on result
     if (userPassword.validity.valueMissing) {
@@ -88,9 +80,9 @@ function validateUserpassword() {
     // display the custom message or clear it if all constraints are met
     passwordError.textContent = userPassword.validationMessage;
 
-}
+})
 
-function validateUserconfirmpassword() {
+userConfirmPassword.addEventListener("input", () => {
 
     // check input validity and decide validation message based on result
     if (userConfirmPassword.validity.valueMissing) {
@@ -109,21 +101,11 @@ function validateUserconfirmpassword() {
     // display the custom message or clear it if all constraints are met
     confirmPasswordError.textContent = userConfirmPassword.validationMessage
 
-}
+})
 
-/**
- * apply all validation functions to intended DOM elements
- * note: these only take effect when user clicks on input fields
- */
-userName.addEventListener("input", validateUsername)
-userEmail.addEventListener("input", validateUseremail)
-userPassword.addEventListener("input", validateUserpassword)
-userConfirmPassword.addEventListener("input", validateUserconfirmpassword)
-
-// describes what happens when "submit" button is clicked
-/**
- * recall: prior to clicking submit button, validations are only performed when user inputs
- * content in input fields, meaning they may still "legally" submit blank fields.
+/**describes what happens when "submit" button is clicked
+ * note: prior to clicking submit button, validations are only performed when user inputs
+ * content in input fields, meaning they may still "legally" submit form with blank fields.
  * need to account for this by validating one more time when submit button is clicked,
  * then proceeding accordingly.
  */
