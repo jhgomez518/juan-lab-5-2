@@ -9,54 +9,168 @@ const emailError = document.getElementById("customEmailError")
 const passwordError = document.getElementById("passwordError")
 const confirmPasswordError = document.getElementById("confirmPasswordError")
 const submitButton = document.getElementById("submit-button")
+const statusMessage = document.getElementById("status-message")
 
 // retrieves any object/data (as a string) saved in local storage as a result of user previously interacting with app
 const saved_data = localStorage.getItem("form_submissions")
 // recovers object type of the saved object in local storage; will use to populate placeholder values if it exists
 const recovered_saved_data = JSON.parse(saved_data)
 
-userName.addEventListener("input", () => {
-    /**
-     * when input data changes, if an object exists in local storage,
-     * input placeholder values will update with values of the object
-     * for the corresponding inputs/properties
-     */
-    if(saved_data) {
+/**
+* if an object exists in local storage,
+* input placeholder values will update with values of the object
+* for the corresponding inputs/properties
+*/
+if(saved_data) {
         userName.placeholder = recovered_saved_data.username
         userEmail.placeholder = recovered_saved_data.email
         userPassword.placeholder = recovered_saved_data.password
         userConfirmPassword.placeholder = recovered_saved_data.confirm_password
     }
 
-})
+/**
+ * note, initially had arrow functions, but when got to submit-button listener needed to
+ * call functions and realized that this does not work for arrow-functions, so
+ * i re-factored code. learned to reverse-engineer syntax from:
+ * https://medium.com/@mz.ebrahimi/dont-use-arrow-functions-in-event-listeners-and-what-to-do-instead-2f545098cd9f
+ */
+function validateUsername() {
+    
+    // check input validity and decide validation message based on result
+    if (userName.validity.valueMissing) {
+        userName.setCustomValidity("please enter a value");
+    } else if (userName.validity.tooLong) {
+        userName.setCustomValidity("username is too long");
+    }
+    else if (userName.validity.tooShort) {
+        userName.setCustomValidity("username is too short")
+    } else {
+        userName.setCustomValidity(''); // clear custom error if valid
+    }
+    // display the custom message or clear it if all constraints are met
+    usernameError.textContent = userName.validationMessage;
+
+}
+
+function validateUseremail() {
+
+    // check input validity and decide validation message based on result
+    if (userEmail.validity.valueMissing) {
+        userEmail.setCustomValidity("please enter a value");
+    } else if (userEmail.validity.typeMismatch) {
+        userEmail.setCustomValidity("please enter a valid email address");
+    }
+    else if (userEmail.validity.tooShort) {
+        userEmail.setCustomValidity("email is too short")
+    } else if (userEmail.validity.tooLong) {
+        userEmail.setCustomValidity("email is too long")
+    } else {
+        userEmail.setCustomValidity(''); // clear custom error if valid
+    }
+    // display the custom message or clear it if all constraints are met
+    emailError.textContent = userEmail.validationMessage;
+
+}
+
+function validateUserpassword() {
+
+    // check input validity and decide validation message based on result
+    if (userPassword.validity.valueMissing) {
+        userPassword.setCustomValidity("please enter a value");
+    } else if (userPassword.validity.tooLong) {
+        userPassword.setCustomValidity("password is too long");
+    }
+    else if (userPassword.validity.tooShort) {
+        userPassword.setCustomValidity("password is too short")
+    } else {
+        userPassword.setCustomValidity(''); // clear custom error if valid
+    }
+    // display the custom message or clear it if all constraints are met
+    passwordError.textContent = userPassword.validationMessage;
+
+}
+
+function validateUserconfirmpassword() {
+
+    // check input validity and decide validation message based on result
+    if (userConfirmPassword.validity.valueMissing) {
+        userConfirmPassword.setCustomValidity("please enter a value");
+    } else if (userConfirmPassword.validity.tooLong) {
+        userConfirmPassword.setCustomValidity("password is too long");
+    }
+    else if (userConfirmPassword.validity.tooShort) {
+        userConfirmPassword.setCustomValidity("password is too short")
+    } else if (userConfirmPassword.value !== userPassword.value) { //only applying this to "confirm password" field since most users complete this last
+        userConfirmPassword.setCustomValidity("passwords must match")
+    }
+    else {
+        userConfirmPassword.setCustomValidity('') // clear custom error if valid
+    }
+    // display the custom message or clear it if all constraints are met
+    confirmPasswordError.textContent = userConfirmPassword.validationMessage
+
+}
+
+/**
+ * apply all validation functions to intended DOM elements
+ * note: these only take effect when user clicks on input fields
+ */
+userName.addEventListener("input", validateUsername)
+userEmail.addEventListener("input", validateUseremail)
+userPassword.addEventListener("input", validateUserpassword)
+userConfirmPassword.addEventListener("input", validateUserconfirmpassword)
 
 // describes what happens when "submit" button is clicked
-submitButton.addEventListener("click", () => {
+/**
+ * recall: prior to clicking submit button, validations are only performed when user inputs
+ * content in input fields, meaning they may still "legally" submit blank fields.
+ * need to account for this by validating one more time when submit button is clicked,
+ * then proceeding accordingly.
+ */
+submitButton.addEventListener("click", (event) => {
 
-    // submitted-form object created upon click
-    // properties for object determined by user's input values
-    const submitted_form = {
-
-        username: userName.value,
-        email: userEmail.value,
-        password: userPassword.value,
-        confirm_password: userConfirmPassword.value
-
-    }
+    event.preventDefault() // prevents default behavior for submit-button since i want to define that logic here
 
     /**
-     * save object to local storage (as string); "form_submissions" to be the key, value to be the object
-     * note: in previous exercise i used an array and pushed object to array, which might have been
-     * redundant--in any case, i am only storing one object at a time in local storage here,
-     * so i realized i can just bypass the array
+     * following if-else describes what happens when all validations pass at moment of user's click,
+     * and what happens if validations don't pass at moment of user's click.
      */
-    
-    localStorage.setItem("form_submissions", JSON.stringify(submitted_form))
 
-    // input values cleared
-    userName.value = ""
-    userEmail.value = ""
-    userPassword.value = ""
-    userConfirmPassword = ""
+    if(userName.validity.valid && userEmail.validity.valid && userPassword.validity.valid && userConfirmPassword.validity.valid) {
+
+        // submitted-form object created
+        // properties for object determined by user's input values
+        const submitted_form = {
+
+            username: userName.value,
+            email: userEmail.value,
+            password: userPassword.value,
+            confirm_password: userConfirmPassword.value
+
+        }
+
+        /**
+         * save object to local storage (as string); "form_submissions" to be the key, value to be the object
+         * note: in previous exercise i used an array and pushed object to array, which might have been
+         * redundant--in any case, i am only storing one object at a time in local storage here,
+         * so i realized i can just bypass the array
+         */
+        
+        localStorage.setItem("form_submissions", JSON.stringify(submitted_form))
+
+        // input values cleared
+        userName.value = ""
+        userEmail.value = ""
+        userPassword.value = ""
+        userConfirmPassword.value = ""
+        statusMessage.classList.remove("has-text-danger")
+        statusMessage.classList.add("has-text-link");
+        statusMessage.textContent = "submitted successfully!"
+
+    } else {
+        statusMessage.textContent = "please fill out all fields correctly."
+    }
 
 })
+
+

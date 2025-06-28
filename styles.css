@@ -3,7 +3,6 @@
   border-color: #e74c3c; /* Light red for invalid built-in states */
   border-width: 2px;;
 }
-/* You can add a .valid class if you want to style valid inputs too */
 
 .field, .error-message {
   display: block;

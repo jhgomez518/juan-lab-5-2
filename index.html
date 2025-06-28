@@ -33,7 +33,7 @@
               <div class="navbar-dropdown">
                 <a class="navbar-item"> my profile </a>
                 <a class="navbar-item"> manage account </a>
-                <a class="navbar-item is-selected"> contact us </a>
+                <a class="navbar-item is-selected"> mailing list </a>
                 <hr class="navbar-divider" />
                 <a class="navbar-item"> sign out </a>
               </div>
@@ -48,11 +48,12 @@
         <div class="column is-2 is-offset-1">
           <section class="container">
             <h1 class="title pt-5 pb-5 has-text-black has-text-left">
-              contact us
+              join our mailing list (:
             </h1>
             <h2 class="subtitle"></h2>
           </section>
           <form class="sign-up-form" novalidate>
+            <!-- "novalidate" since i want to own validation in my JS -->
             <div class="field">
               <label class="label has-text-black">username:</label>
               <div class="control">
@@ -61,7 +62,7 @@
                   id="username"
                   type="text"
                   placeholder="username"
-                  minlength="6"
+                  minlength="8"
                   maxlength="20"
                   required
                 />
@@ -124,27 +125,18 @@
         </div>
       </div>
     </section>
-    <section
-      class="hero is-warning is-fullheight is-flex-grow-1"
-      id="page-header"
-    >
-      <div
-        class="hero-body is-flex is-flex-direction-column is-align-items-center"
-      >
-        <section class="container">
-          <h1 class="title">contact us</h1>
-          <h2 class="subtitle"></h2>
-        </section>
-        <section class="container">
-          <h1 class="title">Shopping Cart</h1>
-          <h2 class="subtitle"></h2>
-        </section>
-        <section class="container">
-          <h1 class="title">Shopping Cart</h1>
-          <h2 class="subtitle"></h2>
-        </section>
+    <section class="is-large has-background-warning">
+      <div class="columns">
+        <div class="column is-2 is-offset-1">
+          <h2 class="subtitle has-text-danger" id="status-message">
+            please submit all fields.
+          </h2>
+        </div>
       </div>
     </section>
+    <section
+      class="hero is-small is-warning is-fullheight is-flex-grow-1"
+    ></section>
     <footer class="footer">
       <div class="columns has-text-centered">
         <div class="column"><a>instagram</a></div>
