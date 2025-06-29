@@ -32,4 +32,8 @@ Reflections Questions:
   
 5. How did you ensure that custom error messages were user-friendly and displayed at the appropriate times?
    
-   - Testing, testing, testing! 
+   - Testing, testing, testing! Constantly testing is the quickest and most effective way to intuit what the
+   - UX would be like, and to tweak accordingly. Testing after every single added functionality allows me to keep track
+   - of what's working and to quickly be able to pinpoint what's not. Regarding the UX: one notable omission from my form
+   - that would have made it 10x better is if I added a "show password" option for the user--will look into this next time.
+   - (passwords are like a whole thing apparently)
