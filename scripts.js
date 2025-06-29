@@ -120,7 +120,7 @@ submitButton.addEventListener("click", (event) => {
 
     if(userName.validity.valid && userEmail.validity.valid && userPassword.validity.valid && userConfirmPassword.validity.valid) {
 
-        // submitted-form object created
+        // given all validations pass, "submitted-form" object created;
         // properties for object determined by user's input values
         const submitted_form = {
 
@@ -132,7 +132,7 @@ submitButton.addEventListener("click", (event) => {
         }
 
         /**
-         * save object to local storage (as string); "form_submissions" to be the key, value to be the object
+         * save object to local storage (as string); "form_submissions" to be the key, value to be the object.
          * note: in previous exercise i used an array and pushed object to array, which might have been
          * redundant--in any case, i am only storing one object at a time in local storage here,
          * so i realized i can just bypass the array
@@ -146,7 +146,7 @@ submitButton.addEventListener("click", (event) => {
         userPassword.value = ""
         userConfirmPassword.value = ""
         statusMessage.classList.remove("has-text-danger")
-        statusMessage.classList.add("has-text-link");
+        statusMessage.classList.add("has-text-link"); // green didn't pop out as much ):
         statusMessage.textContent = "submitted successfully!"
 
     } else {
